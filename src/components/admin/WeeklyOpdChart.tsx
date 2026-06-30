@@ -181,7 +181,7 @@ export default function WeeklyOpdChart({ data }: WeeklyOpdChartProps) {
 
       {active && (
         <div
-          className="pointer-events-none absolute z-10 rounded-xl border border-[var(--glass-border)] bg-[var(--glass-bg)] px-3 py-2 shadow-lg backdrop-blur-sm"
+          className="pointer-events-none absolute z-10 rounded-2xl bg-[var(--card-bg)] px-3 py-2 shadow-[var(--card-shadow-sm)]"
           style={{
             left: `${(active.x / W) * 100}%`,
             top: `${((active.y - 12) / H) * 100}%`,

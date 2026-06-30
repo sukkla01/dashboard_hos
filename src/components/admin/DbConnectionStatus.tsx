@@ -9,7 +9,7 @@ export default async function DbConnectionStatus() {
   if (!dbHealth) {
     return (
       <div
-        className="hidden items-center gap-2 rounded-xl border border-amber-500/20 bg-amber-500/10 px-3 py-1.5 sm:flex"
+        className="hidden items-center gap-2 rounded-full bg-amber-500/10 px-3 py-1.5 sm:flex"
         title="ยังไม่ได้ตั้งค่าการเชื่อมต่อฐานข้อมูล"
       >
         <span className="h-2 w-2 shrink-0 rounded-full bg-amber-500" />
@@ -23,10 +23,8 @@ export default async function DbConnectionStatus() {
 
   return (
     <div
-      className={`hidden items-center gap-2 rounded-xl border px-3 py-1.5 sm:flex ${
-        online
-          ? "border-emerald-500/20 bg-emerald-500/10"
-          : "border-red-500/20 bg-red-500/10"
+      className={`hidden items-center gap-2 rounded-full px-3 py-1.5 sm:flex ${
+        online ? "bg-emerald-500/10" : "bg-red-500/10"
       }`}
       title={`HosXP ${dbTypeLabel(type)} — ${online ? "เชื่อมต่อแล้ว" : "เชื่อมต่อไม่สำเร็จ"}`}
     >

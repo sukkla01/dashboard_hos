@@ -2,86 +2,138 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ── Light theme (GlassAdmin) ── */
+/* ── Light theme (Horizon UI) ── */
 :root {
   color-scheme: light;
 
-  --background: #f8f9fb;
-  --foreground: #1a1c1e;
-  --muted: #71717a;
+  --background: #f4f7fe;
+  --foreground: #1b2559;
+  --muted: #a3aed0;
 
-  --glass-bg: rgba(255, 255, 255, 0.72);
-  --glass-border: rgba(255, 255, 255, 0.9);
-  --glass-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
-  --glass-blur: 16px;
+  --card-bg: #ffffff;
+  --card-shadow: 0px 18px 40px rgba(112, 144, 176, 0.12);
+  --card-shadow-sm: 0px 4px 18px rgba(112, 144, 176, 0.08);
 
-  --sidebar-bg: rgba(255, 255, 255, 0.82);
-  --sidebar-border: rgba(0, 0, 0, 0.06);
-  --header-bg: rgba(255, 255, 255, 0.75);
+  --glass-bg: #ffffff;
+  --glass-border: transparent;
+  --glass-shadow: var(--card-shadow);
+  --glass-blur: 0px;
 
-  --page-gradient: radial-gradient(ellipse 80% 60% at 20% 0%, #eef2ff 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 80% 100%, #f5f3ff 0%, transparent 55%),
-    #f8f9fb;
+  --sidebar-bg: #ffffff;
+  --sidebar-border: rgba(163, 174, 208, 0.2);
+  --header-bg: #ffffff;
+  --header-glass-bg: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    rgba(255, 255, 255, 0.08) 55%,
+    rgba(255, 255, 255, 0.12) 100%
+  );
+  --header-glass-sheen: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.28) 0%,
+    rgba(255, 255, 255, 0.04) 32%,
+    transparent 100%
+  );
+  --header-glass-border: rgba(255, 255, 255, 0.12);
+  --header-glass-blur: 96px;
+  --header-glass-saturate: 220%;
+  --header-glass-brightness: 1.08;
+  --header-glass-shadow:
+    0 8px 40px rgba(255, 255, 255, 0.18),
+    0 4px 28px rgba(31, 38, 135, 0.05),
+    inset 0 0.5px 0 rgba(255, 255, 255, 0.5);
+  --header-input-bg: rgba(255, 255, 255, 0.14);
+  --header-input-border: rgba(255, 255, 255, 0.14);
 
-  --nav-active-bg: rgba(99, 102, 241, 0.12);
-  --nav-active-text: #4338ca;
-  --nav-hover-bg: rgba(99, 102, 241, 0.06);
+  --page-gradient: #f4f7fe;
 
-  --input-bg: rgba(255, 255, 255, 0.9);
-  --input-border: rgba(0, 0, 0, 0.08);
-  --divider: rgba(0, 0, 0, 0.06);
+  --nav-active-bg: #4318ff;
+  --nav-active-text: #ffffff;
+  --nav-hover-bg: rgba(67, 24, 255, 0.06);
 
-  --primary-50: #eef2ff;
-  --primary-100: #e0e7ff;
-  --primary-200: #c7d2fe;
-  --primary-300: #a5b4fc;
-  --primary-400: #818cf8;
-  --primary-500: #6366f1;
-  --primary-600: #4f46e5;
-  --primary-700: #4338ca;
-  --primary-800: #3730a3;
-  --primary-900: #312e81;
+  --input-bg: #f4f7fe;
+  --input-border: transparent;
+  --divider: rgba(163, 174, 208, 0.25);
+
+  --hero-gradient: linear-gradient(135deg, #422afb 0%, #7551ff 45%, #ad18fe 100%);
+
+  --primary-50: #f4f1ff;
+  --primary-100: #e9e3ff;
+  --primary-200: #d4cbff;
+  --primary-300: #b9a8ff;
+  --primary-400: #7551ff;
+  --primary-500: #4318ff;
+  --primary-600: #3311db;
+  --primary-700: #2a0fb8;
+  --primary-800: #220d96;
+  --primary-900: #1b0b7a;
 }
 
-/* ── Dark theme (GlassAdmin) ── */
+/* ── Dark theme (Horizon UI) ── */
 .dark {
   color-scheme: dark;
 
-  --background: #0b0f1a;
-  --foreground: #f1f5f9;
-  --muted: #94a3b8;
+  --background: #0b1437;
+  --foreground: #ffffff;
+  --muted: #a3aed0;
 
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  --glass-blur: 16px;
+  --card-bg: #111c44;
+  --card-shadow: 0px 18px 40px rgba(0, 0, 0, 0.35);
+  --card-shadow-sm: 0px 4px 18px rgba(0, 0, 0, 0.25);
 
-  --sidebar-bg: rgba(255, 255, 255, 0.03);
-  --sidebar-border: rgba(255, 255, 255, 0.08);
-  --header-bg: rgba(255, 255, 255, 0.04);
+  --glass-bg: #111c44;
+  --glass-border: rgba(255, 255, 255, 0.06);
+  --glass-shadow: var(--card-shadow);
+  --glass-blur: 0px;
 
-  --page-gradient: radial-gradient(ellipse 80% 60% at 20% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 80% 100%, rgba(139, 92, 246, 0.1) 0%, transparent 55%),
-    #0b0f1a;
+  --sidebar-bg: #111c44;
+  --sidebar-border: rgba(255, 255, 255, 0.06);
+  --header-bg: #111c44;
+  --header-glass-bg: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.02) 55%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  --header-glass-sheen: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.01) 28%,
+    transparent 100%
+  );
+  --header-glass-border: rgba(255, 255, 255, 0.06);
+  --header-glass-blur: 96px;
+  --header-glass-saturate: 200%;
+  --header-glass-brightness: 1.04;
+  --header-glass-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.18),
+    0 4px 28px rgba(117, 81, 255, 0.08),
+    inset 0 0.5px 0 rgba(255, 255, 255, 0.14);
+  --header-input-bg: rgba(255, 255, 255, 0.06);
+  --header-input-border: rgba(255, 255, 255, 0.06);
 
-  --nav-active-bg: rgba(99, 102, 241, 0.2);
-  --nav-active-text: #c7d2fe;
-  --nav-hover-bg: rgba(255, 255, 255, 0.06);
+  --page-gradient: #0b1437;
+
+  --nav-active-bg: #7551ff;
+  --nav-active-text: #ffffff;
+  --nav-hover-bg: rgba(117, 81, 255, 0.12);
 
   --input-bg: rgba(255, 255, 255, 0.06);
-  --input-border: rgba(255, 255, 255, 0.1);
+  --input-border: rgba(255, 255, 255, 0.08);
   --divider: rgba(255, 255, 255, 0.08);
 
-  --primary-50: #1e1b4b;
-  --primary-100: #312e81;
-  --primary-200: #3730a3;
-  --primary-300: #4338ca;
-  --primary-400: #6366f1;
-  --primary-500: #818cf8;
-  --primary-600: #a5b4fc;
-  --primary-700: #c7d2fe;
-  --primary-800: #e0e7ff;
-  --primary-900: #eef2ff;
+  --hero-gradient: linear-gradient(135deg, #3311db 0%, #7551ff 50%, #9b59ff 100%);
+
+  --primary-50: #1b0b7a;
+  --primary-100: #220d96;
+  --primary-200: #2a0fb8;
+  --primary-300: #3311db;
+  --primary-400: #4318ff;
+  --primary-500: #7551ff;
+  --primary-600: #9b7dff;
+  --primary-700: #b9a8ff;
+  --primary-800: #d4cbff;
+  --primary-900: #f4f1ff;
 }
 
 @theme inline {
@@ -106,44 +158,90 @@
 
 body {
   background: var(--page-gradient);
-  background-attachment: fixed;
   color: var(--foreground);
   min-height: 100vh;
 }
 
-/* ── Glass utilities ── */
+/* ── Horizon UI utilities ── */
 .glass-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
+  background: var(--card-bg);
   border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
+  border-radius: 20px;
+  box-shadow: var(--card-shadow);
 }
 
 .glass-sidebar {
   background: var(--sidebar-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   border-right: 1px solid var(--sidebar-border);
+  box-shadow: 14px 17px 40px 4px rgba(112, 144, 176, 0.08);
 }
 
 .glass-header {
-  background: var(--header-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border-bottom: 1px solid var(--sidebar-border);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--header-glass-bg);
+  backdrop-filter: blur(var(--header-glass-blur)) saturate(var(--header-glass-saturate))
+    brightness(var(--header-glass-brightness));
+  -webkit-backdrop-filter: blur(var(--header-glass-blur)) saturate(var(--header-glass-saturate))
+    brightness(var(--header-glass-brightness));
+  border: 0.5px solid var(--header-glass-border);
+  border-radius: 9999px;
+  box-shadow: var(--header-glass-shadow);
+}
+
+.glass-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: var(--header-glass-sheen);
+  pointer-events: none;
+}
+
+.glass-header::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    ellipse 90% 40% at 50% 0%,
+    rgba(255, 255, 255, 0.12) 0%,
+    transparent 65%
+  );
+  pointer-events: none;
+}
+
+.glass-header > * {
+  position: relative;
+  z-index: 1;
+}
+
+.glass-header .glass-input {
+  background: var(--header-input-bg);
+  backdrop-filter: blur(40px) saturate(var(--header-glass-saturate))
+    brightness(var(--header-glass-brightness));
+  -webkit-backdrop-filter: blur(40px) saturate(var(--header-glass-saturate))
+    brightness(var(--header-glass-brightness));
+  border: 0.5px solid var(--header-input-border);
+  box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.25);
 }
 
 .glass-footer {
-  background: var(--header-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border-top: 1px solid var(--sidebar-border);
+  background: transparent;
+  border-top: none;
 }
 
 .glass-input {
   background: var(--input-bg);
   border: 1px solid var(--input-border);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  border-radius: 30px;
+}
+
+.horizon-hero {
+  background: var(--hero-gradient);
+  border-radius: 20px;
+  box-shadow: var(--card-shadow);
 }

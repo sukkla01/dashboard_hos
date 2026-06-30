@@ -5,34 +5,27 @@ import ThemeToggle from "@/components/admin/ThemeToggle";
 
 export default function Header() {
   return (
-    <header className="glass-header z-10 flex h-16 shrink-0 items-center justify-between gap-4 px-6">
-      <div className="min-w-0 shrink-0">
-        <h1 className="text-lg font-semibold text-foreground">แดชบอร์ด</h1>
-        <p className="text-sm text-muted">ยินดีต้อนรับสู่ระบบ HosXP Admin 👋</p>
+    <header className="glass-header flex h-[61px] w-full items-center justify-between gap-3 px-3 sm:gap-4 sm:px-4">
+      <div className="relative hidden min-w-0 flex-1 md:block">
+        <Search
+          className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
+          strokeWidth={2}
+        />
+        <input
+          type="search"
+          placeholder="ค้นหา HN, ชื่อผู้ป่วย..."
+          className="glass-input w-full max-w-md py-2.5 pl-11 pr-4 text-sm text-foreground placeholder:text-muted focus:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+        />
       </div>
 
-      <div className="hidden flex-1 justify-center px-4 md:flex">
-        <div className="relative w-full max-w-md">
-          <Search
-            className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
-            strokeWidth={2}
-          />
-          <input
-            type="search"
-            placeholder="ค้นหา HN, ชื่อผู้ป่วย..."
-            className="glass-input w-full rounded-xl py-2.5 pl-10 pr-4 text-sm text-foreground placeholder:text-muted focus:border-primary-400 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
-          />
-        </div>
-      </div>
-
-      <div className="flex shrink-0 items-center gap-2">
+      <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
         <DbConnectionStatus />
 
         <ThemeToggle />
 
         <button
           type="button"
-          className="relative rounded-xl p-2.5 text-muted transition-colors hover:bg-primary-500/10 hover:text-primary-600 dark:hover:text-primary-400"
+          className="relative rounded-full p-2.5 text-muted transition-colors hover:bg-white/30 hover:text-primary-500 dark:hover:bg-white/10"
           aria-label="การแจ้งเตือน"
         >
           <Bell className="h-5 w-5" strokeWidth={2} />
@@ -41,12 +34,8 @@ export default function Header() {
           </span>
         </button>
 
-        <div className="ml-1 hidden h-8 w-px bg-[var(--divider)] sm:block" />
-
-        <div className="hidden items-center gap-3 sm:flex">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-primary-400 to-primary-600 text-sm font-semibold text-white">
-            ผอ
-          </div>
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-foreground text-sm font-bold text-white">
+          ผอ
         </div>
       </div>
     </header>

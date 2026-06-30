@@ -54,6 +54,8 @@ LIMIT 50
 
 ### ovst — การมารับบริการ (OPD)
 
+> รายละเอียด OPD ครบ (vn_stat, ovstdiag, opdscreen, opitemrece ฯลฯ) → [hosxp-opd-tables](../hosxp-opd-tables/SKILL.md)
+
 | Column | ความหมาย |
 |--------|----------|
 | vn | Visit Number |
@@ -61,8 +63,9 @@ LIMIT 50
 | vstdate | วันที่มา |
 | vsttime | เวลา |
 | spclty | รหัสแผนก |
-| pdx | วินิจฉัยหลัก (ICD10) |
-| pt_priority | ความเร่งด่วน |
+| pttype | สิทธิการรักษา |
+| ovstost | สถานะการส่งตรวจ |
+| pdx | วินิจฉัยหลัก (ใน vn_stat) |
 
 ```sql
 SELECT o.vn, o.hn, o.vstdate, o.vsttime, o.spclty, p.fname, p.lname
