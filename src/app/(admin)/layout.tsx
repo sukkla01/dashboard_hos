@@ -23,6 +23,7 @@ export default async function AdminLayout({
           <Header user={user} />
         </div>
         <main className="flex-1 overflow-y-auto px-6 pb-6 pt-[85px]">{children}</main>
+        xxxxxxxxxx
         xxxxxxx
         <Footer />
       </div>
