@@ -35,8 +35,8 @@ const stats: {
     value: "45",
     change: "+5%",
     positive: true,
-    iconBg: "bg-sky-500/15",
-    iconColor: "text-sky-600 dark:text-sky-400",
+    iconBg: "bg-red-500/15",
+    iconColor: "text-red-600 dark:text-red-400",
     icon: CalendarDays,
   },
   {
