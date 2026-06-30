@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Sarabun } from "next/font/google";
 
 import { ThemeProvider } from "@/components/admin/ThemeProvider";
+import { ThemeScript } from "@/components/admin/ThemeScript";
 
 import "./globals.css";
 
@@ -16,8 +17,6 @@ export const metadata: Metadata = {
   description: "ระบบจัดการโรงพยาบาล HosXP Admin Dashboard",
 };
 
-const themeScript = `(function(){try{var t=localStorage.getItem("theme");var d=t?t==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;document.documentElement.classList.toggle("dark",d)}catch(e){}})()`;
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -26,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="th" className={`${sarabun.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <ThemeScript />
       </head>
       <body className="min-h-full font-sans">
         <ThemeProvider>{children}</ThemeProvider>

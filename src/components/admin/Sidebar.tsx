@@ -11,6 +11,9 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import LogoutButton from "@/components/admin/LogoutButton";
+import { type SessionUser, userInitials } from "@/lib/auth/types";
+
 const navItems: { href: string; label: string; icon: LucideIcon }[] = [
   { href: "/", label: "แดชบอร์ด", icon: LayoutDashboard },
   { href: "/patients", label: "ผู้ป่วย", icon: Users },
@@ -19,8 +22,13 @@ const navItems: { href: string; label: string; icon: LucideIcon }[] = [
   { href: "/settings", label: "ตั้งค่า", icon: Settings },
 ];
 
-export default function Sidebar() {
+type SidebarProps = {
+  user: SessionUser;
+};
+
+export default function Sidebar({ user }: SidebarProps) {
   const pathname = usePathname();
+  const initials = userInitials(user);
 
   return (
     <aside className="glass-sidebar flex h-screen w-64 shrink-0 flex-col">
@@ -63,13 +71,14 @@ export default function Sidebar() {
         <div className="rounded-2xl bg-[var(--input-bg)] p-3">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-500 text-xs font-bold text-white">
-              ผอ
+              {initials}
             </div>
             <div className="min-w-0">
-              <p className="truncate text-sm font-bold text-foreground">ผู้ดูแลระบบ</p>
-              <p className="truncate text-xs text-muted">admin@hosxp.local</p>
+              <p className="truncate text-sm font-bold text-foreground">{user.name}</p>
+              <p className="truncate text-xs text-muted">{user.loginname}</p>
             </div>
           </div>
+          <LogoutButton />
         </div>
         <p className="mt-3 text-center text-xs text-muted">เวอร์ชัน 1.0.0</p>
       </div>

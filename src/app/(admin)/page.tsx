@@ -9,10 +9,22 @@ import {
 } from "lucide-react";
 
 import WeeklyOpdChart from "@/components/admin/WeeklyOpdChart";
+import ReferInOutPanel from "@/components/admin/ReferInOutPanel";
 import { dbTypeLabel } from "@/lib/db/config";
+import { parseDateRange } from "@/lib/date";
 import { checkDbHealth } from "@/lib/db/health";
+import {
+  getAppointmentTodayStats,
+  getAvailableBedStats,
+  getOpdTodayStats,
+  getTopOpdDiagnoses,
+  getStaffStats,
+  getWeeklyOpdSummary,
+  type DashboardStat,
+} from "@/lib/queries/dashboard";
+import { getReferInOutData } from "@/lib/queries/refer";
 
-const stats: {
+type StatCard = {
   label: string;
   value: string;
   change: string;
@@ -20,70 +32,85 @@ const stats: {
   iconBg: string;
   iconColor: string;
   icon: LucideIcon;
-}[] = [
-  {
-    label: "ผู้ป่วยวันนี้",
-    value: "128",
-    change: "+12%",
-    positive: true,
-    iconBg: "bg-primary-500/15",
-    iconColor: "text-primary-500",
-    icon: Users,
-  },
-  {
-    label: "นัดหมาย",
-    value: "45",
-    change: "+5%",
-    positive: true,
-    iconBg: "bg-red-500/15",
-    iconColor: "text-red-600 dark:text-red-400",
-    icon: CalendarDays,
-  },
-  {
-    label: "เตียงว่าง",
-    value: "23",
-    change: "-3%",
-    positive: false,
-    iconBg: "bg-emerald-500/15",
-    iconColor: "text-emerald-500",
-    icon: BedDouble,
-  },
-  {
-    label: "บุคลากร",
-    value: "89",
-    change: "0%",
-    positive: true,
-    iconBg: "bg-amber-500/15",
-    iconColor: "text-amber-500",
-    icon: Stethoscope,
-  },
-];
+  cardClass?: string;
+  labelClass?: string;
+  valueClass?: string;
+};
 
-const recentActivities = [
-  { time: "09:30", text: "ลงทะเบียนผู้ป่วยใหม่ HN 680001234" },
-  { time: "10:15", text: "นัดหมายตรวจผู้ป่วยนอก 15 ราย" },
-  { time: "11:00", text: "รายงานสรุปยอดผู้ป่วยประจำวัน" },
-  { time: "13:45", text: "อัปเดตข้อมูลเตียง ICU คงเหลือ 3 เตียง" },
-];
+function statValue(stat: DashboardStat | null): string {
+  return stat ? stat.count.toLocaleString("th-TH") : "—";
+}
 
-/** Mock OPD รายวัน — แทนที่ด้วย query ovst เมื่อเชื่อม DB แล้ว */
-const weeklyOpd = [
-  { day: "จ", label: "จันทร์", count: 98 },
-  { day: "อ", label: "อังคาร", count: 112 },
-  { day: "พ", label: "พุธ", count: 105 },
-  { day: "พฤ", label: "พฤหัส", count: 128 },
-  { day: "ศ", label: "ศุกร์", count: 142 },
-  { day: "ส", label: "เสาร์", count: 85 },
-  { day: "อา", label: "อาทิตย์", count: 52 },
-];
+function buildStats(
+  opdToday: DashboardStat | null,
+  appointments: DashboardStat | null,
+  beds: DashboardStat | null,
+  staff: DashboardStat | null,
+): StatCard[] {
+  return [
+    {
+      label: "ผู้ป่วยวันนี้xxxxx",
+      value: statValue(opdToday),
+      change: opdToday?.change ?? "—",
+      positive: opdToday?.positive ?? true,
+      iconBg: "bg-white/25",
+      iconColor: "text-white",
+      icon: Users,
+      cardClass: "!border-red-600 !bg-red-500 shadow-lg shadow-red-500/30",
+      labelClass: "text-white/90",
+      valueClass: "text-white",
+    },
+    {
+      label: "นัดหมาย",
+      value: statValue(appointments),
+      change: appointments?.change ?? "—",
+      positive: appointments?.positive ?? true,
+      iconBg: "bg-red-500/15",
+      iconColor: "text-red-600 dark:text-red-400",
+      icon: CalendarDays,
+    },
+    {
+      label: "เตียงว่าง",
+      value: statValue(beds),
+      change: beds?.change ?? "—",
+      positive: beds?.positive ?? true,
+      iconBg: "bg-emerald-500/15",
+      iconColor: "text-emerald-500",
+      icon: BedDouble,
+    },
+    {
+      label: "บุคลากร",
+      value: statValue(staff),
+      change: staff?.change ?? "—",
+      positive: staff?.positive ?? true,
+      iconBg: "bg-amber-500/15",
+      iconColor: "text-amber-500",
+      icon: Stethoscope,
+    },
+  ];
+}
 
-const weeklyTotal = weeklyOpd.reduce((sum, d) => sum + d.count, 0);
-const weeklyAvg = Math.round(weeklyTotal / weeklyOpd.length);
-const weeklyPeak = weeklyOpd.reduce((max, d) => (d.count > max.count ? d : max));
-const weeklyChange = "+8.2%";
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ referFrom?: string; referTo?: string }>;
+}) {
+  const { referFrom, referTo } = await searchParams;
+  const { from: referFromDate, to: referToDate } = parseDateRange(referFrom, referTo);
 
-export default async function DashboardPage() {
-  const dbHealth = await checkDbHealth();
+  const [dbHealth, opdToday, appointments, beds, staff, weeklyOpd, topDiagnoses, referData] =
+    await Promise.all([
+      checkDbHealth(),
+      getOpdTodayStats(),
+      getAppointmentTodayStats(),
+      getAvailableBedStats(),
+      getStaffStats(),
+      getWeeklyOpdSummary(),
+      getTopOpdDiagnoses(),
+      getReferInOutData(referFromDate, referToDate),
+    ]);
+
+  const stats = buildStats(opdToday, appointments, beds, staff);
 
   return (
     <div className="space-y-6">
@@ -111,7 +138,7 @@ export default async function DashboardPage() {
           const TrendIcon = stat.positive ? TrendingUp : TrendingDown;
 
           return (
-            <div key={stat.label} className="glass-card p-5">
+            <div key={stat.label} className={`glass-card p-5 ${stat.cardClass ?? ""}`}>
               <div className="flex items-start justify-between">
                 <div
                   className={`flex h-11 w-11 items-center justify-center rounded-full ${stat.iconBg}`}
@@ -119,14 +146,20 @@ export default async function DashboardPage() {
                   <Icon className={`h-5 w-5 ${stat.iconColor}`} strokeWidth={2} />
                 </div>
                 <span
-                  className={`flex items-center gap-0.5 text-xs font-bold ${stat.positive ? "text-emerald-500" : "text-red-500"}`}
+                  className={`flex items-center gap-0.5 text-xs font-bold ${
+                    stat.cardClass
+                      ? "text-white"
+                      : stat.positive
+                        ? "text-emerald-500"
+                        : "text-red-500"
+                  }`}
                 >
                   <TrendIcon className="h-3.5 w-3.5" strokeWidth={2.5} />
                   {stat.change}
                 </span>
               </div>
-              <p className="mt-4 text-sm font-medium text-muted">{stat.label}</p>
-              <p className="mt-1 text-3xl font-bold text-foreground">{stat.value}</p>
+              <p className={`mt-4 text-sm font-medium text-muted ${stat.labelClass ?? ""}`}>{stat.label}</p>
+              <p className={`mt-1 text-3xl font-bold text-foreground ${stat.valueClass ?? ""}`}>{stat.value}</p>
             </div>
           );
         })}
@@ -137,26 +170,46 @@ export default async function DashboardPage() {
           <div className="mb-2 flex flex-wrap items-start justify-between gap-4">
             <div>
               <h2 className="text-lg font-bold text-foreground">ภาพรวมผู้ป่วยรายสัปดาห์</h2>
-              <div className="mt-2 flex flex-wrap items-baseline gap-3">
-                <p className="text-3xl font-bold text-foreground">
-                  {weeklyTotal.toLocaleString("th-TH")}
-                </p>
-                <span className="flex items-center gap-1 text-sm font-bold text-emerald-500">
-                  <TrendingUp className="h-4 w-4" strokeWidth={2.5} />
-                  {weeklyChange} จากสัปดาห์ก่อน
-                </span>
-              </div>
-              <p className="mt-1 text-sm text-muted">
-                เฉลี่ย {weeklyAvg.toLocaleString("th-TH")} ราย/วัน · สูงสุด {weeklyPeak.label}{" "}
-                {weeklyPeak.count.toLocaleString("th-TH")} ราย
-              </p>
+              {weeklyOpd ? (
+                <>
+                  <div className="mt-2 flex flex-wrap items-baseline gap-3">
+                    <p className="text-3xl font-bold text-foreground">
+                      {weeklyOpd.total.toLocaleString("th-TH")}
+                    </p>
+                    <span
+                      className={`flex items-center gap-1 text-sm font-bold ${
+                        weeklyOpd.positive ? "text-emerald-500" : "text-red-500"
+                      }`}
+                    >
+                      {weeklyOpd.positive ? (
+                        <TrendingUp className="h-4 w-4" strokeWidth={2.5} />
+                      ) : (
+                        <TrendingDown className="h-4 w-4" strokeWidth={2.5} />
+                      )}
+                      {weeklyOpd.change} จากสัปดาห์ก่อน
+                    </span>
+                  </div>
+                  <p className="mt-1 text-sm text-muted">
+                    เฉลี่ย {weeklyOpd.avg.toLocaleString("th-TH")} ราย/วัน · สูงสุด {weeklyOpd.peak.label}{" "}
+                    {weeklyOpd.peak.count.toLocaleString("th-TH")} ราย
+                  </p>
+                </>
+              ) : (
+                <p className="mt-2 text-sm text-muted">ไม่สามารถโหลดข้อมูลกราฟได้</p>
+              )}
             </div>
             <span className="glass-input rounded-full px-4 py-1.5 text-xs font-medium text-muted">
               สัปดาห์นี้
             </span>
           </div>
 
-          <WeeklyOpdChart data={weeklyOpd} />
+          {weeklyOpd ? (
+            <WeeklyOpdChart data={weeklyOpd.data} />
+          ) : (
+            <div className="flex h-[200px] items-center justify-center text-sm text-muted">
+              ไม่พบข้อมูลผู้ป่วยนอก 7 วันล่าสุด
+            </div>
+          )}
         </div>
 
         <div className="glass-card p-6">
@@ -188,18 +241,40 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      <div className="glass-card p-6">
-        <h2 className="text-lg font-bold text-foreground">กิจกรรมล่าสุด</h2>
-        <p className="mb-4 text-sm text-muted">เหตุการณ์ในระบบวันนี้</p>
-        <div className="divide-y divide-[var(--divider)]">
-          {recentActivities.map((activity) => (
-            <div key={activity.time} className="flex gap-4 py-3">
-              <span className="shrink-0 text-sm font-bold text-primary-500">{activity.time}</span>
-              <span className="text-sm text-muted">{activity.text}</span>
-            </div>
-          ))}
-        </div>
+      <div className="glass-card overflow-hidden p-6">
+        <h2 className="text-lg font-bold text-foreground">10 อันดับโรคผู้ป่วยนอก</h2>
+        <p className="mb-4 text-sm text-muted">วินิจฉัยหลัก (ICD-10) วันนี้</p>
+        {!topDiagnoses || topDiagnoses.length === 0 ? (
+          <p className="py-3 text-sm text-muted">ไม่พบข้อมูลวินิจฉัยวันนี้</p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-[var(--divider)] text-left text-xs font-semibold text-muted">
+                  <th className="pb-3 pr-4 w-12">#</th>
+                  <th className="pb-3 pr-4 w-24">รหัส</th>
+                  <th className="pb-3 pr-4">ชื่อโรค</th>
+                  <th className="pb-3 text-right w-24">จำนวน</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-[var(--divider)]">
+                {topDiagnoses.map((item) => (
+                  <tr key={item.icd10} className="hover:bg-primary-50/50">
+                    <td className="py-3 pr-4 font-bold text-primary-500">{item.rank}</td>
+                    <td className="py-3 pr-4 font-mono text-xs text-muted">{item.icd10}</td>
+                    <td className="py-3 pr-4 text-foreground">{item.name}</td>
+                    <td className="py-3 text-right font-semibold text-foreground">
+                      {item.count.toLocaleString("th-TH")}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
+
+      <ReferInOutPanel from={referFromDate} to={referToDate} data={referData} />
     </div>
   );
 }

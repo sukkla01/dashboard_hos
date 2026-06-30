@@ -2,8 +2,14 @@ import { Bell, Search } from "lucide-react";
 
 import DbConnectionStatus from "@/components/admin/DbConnectionStatus";
 import ThemeToggle from "@/components/admin/ThemeToggle";
+import { type SessionUser, userInitials } from "@/lib/auth/types";
 
-export default function Header() {
+type HeaderProps = {
+  user: SessionUser;
+};
+
+export default function Header({ user }: HeaderProps) {
+  const initials = userInitials(user);
   return (
     <header className="glass-header flex h-[61px] w-full items-center justify-between gap-3 px-3 sm:gap-4 sm:px-4">
       <div className="relative hidden min-w-0 flex-1 md:block">
@@ -34,8 +40,11 @@ export default function Header() {
           </span>
         </button>
 
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-foreground text-sm font-bold text-white">
-          ผอ
+        <div
+          className="flex h-10 w-10 items-center justify-center rounded-full bg-foreground text-sm font-bold text-white"
+          title={user.name}
+        >
+          {initials}
         </div>
       </div>
     </header>
