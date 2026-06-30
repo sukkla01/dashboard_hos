@@ -48,7 +48,7 @@ export default function WeeklyOpdChart({ data }: WeeklyOpdChartProps) {
   );
   const [activeIndex, setActiveIndex] = useState(peakIndex);
 
-  const chartMax = niceMax(Math.max(...data.map((d) => d.count)));
+  const chartMax = Math.max(niceMax(Math.max(...data.map((d) => d.count), 0)), 1);
   const chartWidth = W - PAD.left - PAD.right;
   const chartHeight = H - PAD.top - PAD.bottom;
   const baseline = PAD.top + chartHeight;

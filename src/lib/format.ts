@@ -30,6 +30,23 @@ export function formatThaiDate(
   });
 }
 
+/** วันที่แบบไทย (พ.ศ.) พร้อมวันในสัปดาห์ */
+export function formatThaiDateWithWeekday(
+  value: string | Date | null | undefined,
+): string {
+  if (!value) return "-";
+
+  const date = typeof value === "string" ? new Date(value) : value;
+  if (Number.isNaN(date.getTime())) return "-";
+
+  return date.toLocaleDateString("th-TH", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
 /** เวลา HH:mm */
 export function formatTime(value: string | null | undefined): string {
   if (!value) return "-";
