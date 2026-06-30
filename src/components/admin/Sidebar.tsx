@@ -17,6 +17,7 @@ import { type SessionUser, userInitials } from "@/lib/auth/types";
 const navItems: { href: string; label: string; icon: LucideIcon }[] = [
   { href: "/", label: "แดชบอร์ด", icon: LayoutDashboard },
   { href: "/patients", label: "ผู้ป่วย", icon: Users },
+  { href: "/arrears", label: "ผู้ป่วยค้างชำระ", icon: Users },
   { href: "/appointments", label: "นัดหมาย", icon: CalendarDays },
   { href: "/reports", label: "รายงาน", icon: FileText },
   { href: "/settings", label: "ตั้งค่า", icon: Settings },
