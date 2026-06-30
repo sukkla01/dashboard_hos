@@ -13,6 +13,7 @@ import ReferInOutPanel from "@/components/admin/ReferInOutPanel";
 import { dbTypeLabel } from "@/lib/db/config";
 import { parseDateRange } from "@/lib/date";
 import { checkDbHealth } from "@/lib/db/health";
+import { formatThaiDateWithWeekday } from "@/lib/format";
 import {
   getAppointmentTodayStats,
   getAvailableBedStats,
@@ -111,6 +112,7 @@ export default async function DashboardPage({
     ]);
 
   const stats = buildStats(opdToday, appointments, beds, staff);
+  const todayLabel = formatThaiDateWithWeekday(new Date());
 
   return (
     <div className="space-y-6">
@@ -124,7 +126,7 @@ export default async function DashboardPage({
             <span className="font-medium text-white">แดชบอร์ด</span>
           </nav>
           <h2 className="mt-4 text-2xl font-bold leading-snug text-white sm:text-3xl">
-            จัดการข้อมูลผู้ป่วยและบริการโรงพยาบาลอย่างมีประสิทธิภาพ
+            สวัสดีวันนี้ {todayLabel}
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-white/80 sm:text-base">
             ติดตามผู้ป่วยนอก นัดหมาย และสถานะระบบ HosXP ได้ในที่เดียว
