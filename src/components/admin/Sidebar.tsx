@@ -24,19 +24,20 @@ export default function Sidebar() {
 
   return (
     <aside className="glass-sidebar flex h-screen w-64 shrink-0 flex-col">
-      <div className="flex h-16 shrink-0 items-center border-b border-[var(--sidebar-border)] px-6">
+      <div className="flex h-20 shrink-0 items-center px-6">
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 text-base font-bold text-white shadow-lg shadow-primary-500/30">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-500 text-base font-bold text-white shadow-lg shadow-primary-500/30">
             H
           </div>
           <div className="min-w-0">
-            <p className="truncate text-sm font-semibold leading-tight text-foreground">HosXP Admin</p>
+            <p className="truncate text-sm font-bold leading-tight text-foreground">HosXP Admin</p>
             <p className="truncate text-xs text-muted">ระบบจัดการโรงพยาบาล</p>
           </div>
         </div>
       </div>
 
-      <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
+      <nav className="flex-1 space-y-1 overflow-y-auto px-4 py-2">
+        <p className="mb-2 px-3 text-xs font-bold uppercase tracking-wider text-muted">เมนูหลัก</p>
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
@@ -47,8 +48,8 @@ export default function Sidebar() {
               href={item.href}
               className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all ${
                 isActive
-                  ? "bg-[var(--nav-active-bg)] font-medium text-[var(--nav-active-text)]"
-                  : "text-muted hover:bg-[var(--nav-hover-bg)] hover:text-foreground"
+                  ? "bg-[var(--nav-active-bg)] font-semibold text-[var(--nav-active-text)] shadow-md shadow-primary-500/25"
+                  : "font-medium text-muted hover:bg-[var(--nav-hover-bg)] hover:text-foreground"
               }`}
             >
               <Icon className="h-4 w-4 shrink-0" strokeWidth={2} />
@@ -58,14 +59,14 @@ export default function Sidebar() {
         })}
       </nav>
 
-      <div className="border-t border-[var(--sidebar-border)] px-4 py-4">
-        <div className="glass-card rounded-xl p-3">
+      <div className="border-t border-[var(--sidebar-border)] px-4 py-5">
+        <div className="rounded-2xl bg-[var(--input-bg)] p-3">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary-400 to-primary-600 text-xs font-semibold text-white">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-500 text-xs font-bold text-white">
               ผอ
             </div>
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-foreground">ผู้ดูแลระบบ</p>
+              <p className="truncate text-sm font-bold text-foreground">ผู้ดูแลระบบ</p>
               <p className="truncate text-xs text-muted">admin@hosxp.local</p>
             </div>
           </div>

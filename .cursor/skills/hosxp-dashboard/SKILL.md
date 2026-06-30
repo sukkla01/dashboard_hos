@@ -149,6 +149,7 @@ export default async function PatientsPage() {
 - Env: copy จาก `.env.example` → `.env.local`
 - HosXP วันที่มักเป็น `YYYY-MM-DD` (ค.ศ.) — แสดงผลด้วย `formatThaiDate()`
 - Schema ไม่แน่ใจ → อ่าน [reference.md](reference.md)
+- OPD / ผู้ป่วยนอก ละเอียด → [hosxp-opd-tables](../hosxp-opd-tables/SKILL.md)
 
 ### Error handling
 
@@ -222,5 +223,6 @@ await queryMysql("... WHERE hn LIKE ? OR fname LIKE ?", [`%${q}%`, `%${q}%`]);
 ## เอกสารเพิ่มเติม
 
 - HosXP tables & dashboard queries → [reference.md](reference.md)
+- HosXP OPD tables (ovst, ovstdiag, opitemrece ฯลฯ) → [hosxp-opd-tables](../hosxp-opd-tables/SKILL.md)
 - UI components ละเอียด → [ui-patterns.md](ui-patterns.md)
 - ตัวอย่างหน้าเต็ม → [examples.md](examples.md)

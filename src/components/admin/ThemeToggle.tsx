@@ -15,7 +15,7 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={toggleTheme}
-      className="rounded-xl p-2.5 text-muted transition-colors hover:bg-primary-500/10 hover:text-primary-600 dark:hover:text-primary-400"
+      className="rounded-full p-2.5 text-muted transition-colors hover:bg-white/30 hover:text-primary-500 dark:hover:bg-white/10"
       aria-label={mounted && theme === "dark" ? "เปลี่ยนเป็นโหมดสว่าง" : "เปลี่ยนเป็นโหมดมืด"}
       suppressHydrationWarning
     >
